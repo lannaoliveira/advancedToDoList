@@ -1,11 +1,15 @@
-import React from 'react';
-import { Hello } from './Hello.jsx';
-import { Info } from './Info.jsx';
+import React, { useState } from 'react';
+import { LoginForm } from './routes/FormLogin';
+import { FormSignUp } from './routes/FormSignUp'
 
-export const App = () => (
-  <div>
-    <h1>Welcome to Meteor!</h1>
-    <Hello/>
-    <Info/>
-  </div>
-);
+export const App = () => {
+  const [isClient, setIsClient] = useState('');
+
+  return (
+    <div>
+      {
+        isClient ? <LoginForm /> : <FormSignUp setIsClient={setIsClient} />
+      }
+    </div>
+  );
+};

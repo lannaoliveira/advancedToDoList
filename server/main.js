@@ -1,37 +1,33 @@
 import { Meteor } from 'meteor/meteor';
-import { LinksCollection } from '/imports/api/links';
+import { TasksCollection } from '../imports/api/tasksCollection';
+import { Accounts } from 'meteor/accounts-base';
 
-async function insertLink({ title, url }) {
-  await LinksCollection.insertAsync({ title, url, createdAt: new Date() });
+const USER = 'dev';
+const PASSWORD = '123';
+
+const insertTask = (taskText, isChecked, user) => {
+  TasksCollection.insertAsync({ text : taskText, createdAt: new Date(), isChecked: isChecked, userId: user._id});
 }
 
 Meteor.startup(async () => {
-  // If the Links collection is empty, add some data.
-  if (await LinksCollection.find().countAsync() === 0) {
-    await insertLink({
-      title: 'Do the Tutorial',
-      url: 'https://www.meteor.com/tutorials/react/creating-an-app',
-    });
 
-    await insertLink({
-      title: 'Follow the Guide',
-      url: 'https://guide.meteor.com',
-    });
-
-    await insertLink({
-      title: 'Read the Docs',
-      url: 'https://docs.meteor.com',
-    });
-
-    await insertLink({
-      title: 'Discussions',
-      url: 'https://forums.meteor.com',
-    });
+  if (! await Accounts.findUserByUsername(USER)){
+    await Accounts.createUser({username: USER, password: PASSWORD});
   }
 
-  // We publish the entire Links collection to all clients.
-  // In order to be fetched in real-time to the clients
-  Meteor.publish("links", function () {
-    return LinksCollection.find();
+  if (await TasksCollection.find().countAsync() === 0) {
+    const user = Accounts.findUserByUsername(USER);
+
+    const tasks = [
+      {taskText: "task", isChecked: false}
+    ]
+    
+    tasks.map(({ taskText, isChecked }) => {
+      insertTask(taskText, isChecked, user);
+    })
+  }
+
+  Meteor.publish("tasks", function () {
+    return TasksCollection.find();
   });
 });
