@@ -26,8 +26,4 @@ Meteor.startup(async () => {
       insertTask(taskText, isChecked, user);
     })
   }
-
-  Meteor.publish("tasks", function () {
-    return TasksCollection.find();
-  });
 });

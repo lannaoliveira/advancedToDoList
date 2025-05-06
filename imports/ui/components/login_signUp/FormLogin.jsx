@@ -1,35 +1,22 @@
 import React from 'react';
 import { useState } from 'react';
-import { Accounts } from "meteor/accounts-base";
 import { Meteor } from 'meteor/meteor';
+import { useNavigate } from 'react-router-dom'
 
-export const FormSignUp = ({ setIsClient }) => {
-    const [username, setUsername] = useState('');
+export const LoginForm = () => {
+    const navigate = useNavigate();
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
 
     const submit = (e) => {
         e.preventDefault();
-
-        Accounts.createUser({email, username, password});
-
-        console.log(Meteor.user());
+        Meteor.loginWithPassword(email, password);
+        navigate('/tasks');
     }
 
   return (
     <div>
         <form onSubmit={(e) => submit(e)} className='login-form'>
-            <div>
-                <label>
-                    <span>Nome:</span>
-                    <input 
-                        type="text"
-                        placeholder="Digite seu nome"
-                        required
-                        onChange={(e) => setUsername(String(e.target.value))} 
-                    />
-                </label>
-            </div>
             <div>
                 <label>
                     <span>Email:</span>
@@ -53,10 +40,7 @@ export const FormSignUp = ({ setIsClient }) => {
                 </label>
             </div>
             <div>
-                <button type='submit'>Cadastrar</button>
-            </div>
-            <div onClick={() => setIsClient(true)}>
-                <span>Ja é cliente? Faça login</span>
+                <button type='submit'>Entrar</button>
             </div>
         </form>
     </div>
