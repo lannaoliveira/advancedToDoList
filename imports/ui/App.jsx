@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { LoginForm } from './routes/FormLogin';
-import { FormSignUp } from './routes/FormSignUp'
+import { LoginForm } from './components/login_signUp/FormLogin';
+import { FormSignUp } from './components/login_signUp/FormSignUp'
 
 export const App = () => {
   const [isClient, setIsClient] = useState('');

@@ -12,6 +12,11 @@ export const FormSignUp = ({ setIsClient }) => {
         e.preventDefault();
 
         Accounts.createUser({email, username, password});
+        Meteor.loginWithPassword(email, password);
+
+        setUsername('');
+        setPassword('');
+        setEmail('');
     }
 
   return (
