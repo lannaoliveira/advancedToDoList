@@ -13,7 +13,7 @@ export const LoginForm = () => {
     const submit = (e) => {
         e.preventDefault();
         Meteor.loginWithPassword(email, password);
-        navigate('/tasks');
+        navigate('/welcome');
     }
 
   return (
