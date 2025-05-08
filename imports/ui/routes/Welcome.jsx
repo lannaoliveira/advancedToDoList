@@ -1,14 +1,19 @@
 // import React from 'react'; 
-import React from 'react';
+import React, { useContext } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 import { ToolbarWelcome } from '../components/toolbar/ToolbarWelcome';
 
 import { Grid, Card, CardContent, Typography } from "@mui/material";
+import { contextApp } from '../../../client/main';
 
 export const Welcome = () => {
+
+    const context = useContext(contextApp);
+
+    console.log("Context", context);
 
     const navigate = useNavigate();
 
@@ -30,8 +35,6 @@ export const Welcome = () => {
         navigate('/tasks');
     }
 
-    console.log(user);
-
     return (
         <>
             { user ? (
@@ -41,7 +44,7 @@ export const Welcome = () => {
                         actionButton2={logout}
                         textButton1={'Tarefas'}
                         textButton2={'Sair'}
-                        textToolbar={`Seja bem vindo, ${user.username}!`}
+                        textToolbar={`Seja bem vindo, ${context?.user?.username}!`}
                     />
                         <Grid 
                             container 

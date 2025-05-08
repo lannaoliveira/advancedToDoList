@@ -1,18 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Meteor } from 'meteor/meteor'
 import { useTracker } from "meteor/react-meteor-data";
+import { contextApp } from '../../../client/main';
 
 export const Tasks = () => {
 
-    const user = useTracker(() => Meteor.user());
+  const context = useContext(contextApp);
 
-    if (!user){
-        throw new Error('Usuário não encontrado!');
-    }
+  const user = context?.user;
+
 
   return (
     <div className='tasks-container'>
-
+      <h1>Pagina tasks {user?.username} </h1>
     </div>
   )
 }
